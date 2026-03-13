@@ -6,16 +6,26 @@ const ROLES = [
   { id: "cliente",    label: "Cliente",       icon: "◎", desc: "Rastreo de tu pedido"         },
 ];
 
+const styles = `
+  .login-wrap { min-height: 100vh; background: #f9f6f1; display: flex; align-items: center; justify-content: center; font-family: 'Outfit', sans-serif; padding: 20px; }
+  .login-card { background: white; border-radius: 20px; padding: 36px 32px; border: 1px solid #f0e8e2; box-shadow: 0 4px 32px rgba(107,26,42,0.06); }
+  @media (max-width: 480px) {
+    .login-wrap { align-items: flex-start; padding: 16px; padding-top: 32px; }
+    .login-card { padding: 28px 20px; border-radius: 16px; }
+  }
+`;
+
 export default function LoginView({ onLogin, onVolver }) {
   const [rol, setRol]   = useState(null);
   const [step, setStep] = useState("rol");
   const [form, setForm] = useState({ email: "", password: "" });
 
   return (
-    <div style={{ minHeight: "100vh", background: "#f9f6f1", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'Outfit', sans-serif" }}>
-      <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <div className="login-wrap">
+      <style>{styles}</style>
+      <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
-      <div style={{ width: "100%", maxWidth: 440, padding: "0 20px" }}>
+      <div style={{ width: "100%", maxWidth: 440 }}>
 
         {/* Logo */}
         <div style={{ textAlign: "center", marginBottom: 40 }}>
@@ -28,22 +38,18 @@ export default function LoginView({ onLogin, onVolver }) {
           <div style={{ fontSize: "0.6rem", color: "#b89a8a", textTransform: "uppercase", letterSpacing: "0.12em", marginTop: 2 }}>Logística Siglo XXI</div>
         </div>
 
-        {/* Card */}
-        <div style={{ background: "white", borderRadius: 20, padding: "36px 32px", border: "1px solid #f0e8e2", boxShadow: "0 4px 32px rgba(107,26,42,0.06)" }}>
-
+        <div className="login-card">
           {step === "rol" && (
             <>
-              <div style={{ marginBottom: 28 }}>
-                <div style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.6rem", color: "#2a0a12", marginBottom: 4 }}>Bienvenido</div>
-                <div style={{ fontSize: "0.78rem", color: "#b89a8a", fontWeight: 300 }}>Selecciona tu perfil para continuar</div>
-              </div>
+              <div style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.6rem", color: "#2a0a12", marginBottom: 4 }}>Bienvenido</div>
+              <div style={{ fontSize: "0.78rem", color: "#b89a8a", fontWeight: 300, marginBottom: 28 }}>Selecciona tu perfil para continuar</div>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {ROLES.map(r => (
                   <div key={r.id} onClick={() => { setRol(r.id); setStep("form"); }}
                     style={{ display: "flex", alignItems: "center", gap: 16, padding: "16px 18px", borderRadius: 12, border: "1px solid #e8e0d5", cursor: "pointer", background: "#fdfaf8", transition: "all 0.2s" }}
                     onMouseEnter={e => { e.currentTarget.style.borderColor = "#6b1a2a"; e.currentTarget.style.background = "#fdf5f2"; }}
                     onMouseLeave={e => { e.currentTarget.style.borderColor = "#e8e0d5"; e.currentTarget.style.background = "#fdfaf8"; }}>
-                    <div style={{ width: 40, height: 40, borderRadius: 10, background: "#f5ede8", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1rem", color: "#6b1a2a" }}>{r.icon}</div>
+                    <div style={{ width: 40, height: 40, borderRadius: 10, background: "#f5ede8", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1rem", color: "#6b1a2a", flexShrink: 0 }}>{r.icon}</div>
                     <div style={{ flex: 1 }}>
                       <div style={{ fontWeight: 600, color: "#2a0a12", fontSize: "0.88rem" }}>{r.label}</div>
                       <div style={{ fontSize: "0.7rem", color: "#b89a8a", marginTop: 1 }}>{r.desc}</div>
@@ -61,12 +67,10 @@ export default function LoginView({ onLogin, onVolver }) {
                 style={{ background: "none", border: "none", cursor: "pointer", color: "#b89a8a", fontSize: "0.74rem", marginBottom: 24, padding: 0, fontFamily: "'Outfit',sans-serif" }}>
                 ← Volver
               </button>
-              <div style={{ marginBottom: 28 }}>
-                <div style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.6rem", color: "#2a0a12", marginBottom: 4 }}>
-                  {ROLES.find(r => r.id === rol)?.label}
-                </div>
-                <div style={{ fontSize: "0.76rem", color: "#b89a8a", fontWeight: 300 }}>Ingresa tus credenciales de acceso</div>
+              <div style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.6rem", color: "#2a0a12", marginBottom: 4 }}>
+                {ROLES.find(r => r.id === rol)?.label}
               </div>
+              <div style={{ fontSize: "0.76rem", color: "#b89a8a", fontWeight: 300, marginBottom: 28 }}>Ingresa tus credenciales de acceso</div>
               <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
                 {[["email","Correo electrónico","correo@ecoruta.com","email"],["password","Contraseña","••••••••","password"]].map(([key,label,ph,type]) => (
                   <div key={key}>
@@ -90,14 +94,12 @@ export default function LoginView({ onLogin, onVolver }) {
           )}
         </div>
 
-        {/* Volver a landing */}
         <div style={{ textAlign: "center", marginTop: 20 }}>
           <button onClick={onVolver}
             style={{ background: "none", border: "none", cursor: "pointer", fontSize: "0.72rem", color: "#b89a8a", fontFamily: "'Outfit',sans-serif" }}>
             ← Volver al inicio
           </button>
         </div>
-
         <div style={{ textAlign: "center", marginTop: 16, fontSize: "0.62rem", color: "#c9b8b0" }}>
           © 2026 EcoRuta · Logística Siglo XXI · Bogotá, Colombia
         </div>
