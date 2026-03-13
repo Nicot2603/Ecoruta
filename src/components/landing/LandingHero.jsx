@@ -2,11 +2,13 @@ const styles = `
   .hero-wrap { max-width: 1200px; margin: 0 auto; padding: 80px 48px 90px; display: flex; align-items: center; gap: 60px; border-bottom: 1px solid #e8e0d5; }
   .hero-h1 { font-family: 'Playfair Display', serif; font-size: 4rem; color: #2a0a12; line-height: 1.05; font-weight: 400; margin: 0 0 24px; }
   .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
-  .hero-card { width: 340px; flex-shrink: 0; position: relative; }
+  .hero-card { width: 340px; flex-shrink: 0; position: relative; padding-bottom: 36px; }
+  .floating-badge { position: absolute; bottom: 0; left: -20px; background: #6b1a2a; border-radius: 14px; padding: 14px 18px; z-index: 2; }
   @media (max-width: 960px) {
     .hero-wrap { flex-direction: column; align-items: flex-start; padding: 48px 24px 60px; gap: 40px; }
     .hero-h1 { font-size: 3rem; }
     .hero-card { width: 100%; max-width: 420px; }
+    .floating-badge { left: 16px; bottom: 0; }
   }
   @media (max-width: 560px) {
     .hero-wrap { padding: 32px 16px 48px; }
@@ -16,11 +18,14 @@ const styles = `
     .hero-card { max-width: 100%; }
   }
 `;
+
 export default function LandingHero({ onLogin }) {
   return (
     <>
       <style>{styles}</style>
       <section className="hero-wrap">
+
+        {/* Texto — izquierda */}
         <div style={{ flex: 1 }}>
           <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#f0e8e2", borderRadius: 99, padding: "5px 16px", marginBottom: 32 }}>
             <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#6b1a2a" }} />
@@ -31,11 +36,21 @@ export default function LandingHero({ onLogin }) {
             EcoRuta conecta bodegas, repartidores y clientes en una sola plataforma. Gestión inteligente de entregas de última milla para Logística Siglo XXI.
           </p>
           <div className="hero-btns">
-            <button onClick={onLogin} style={{ padding: "14px 32px", borderRadius: 10, background: "#6b1a2a", color: "#f9f0e3", border: "none", fontWeight: 600, fontSize: "0.88rem", cursor: "pointer", fontFamily: "'Outfit',sans-serif" }}>Acceder a la plataforma →</button>
-            <button style={{ padding: "14px 28px", borderRadius: 10, background: "transparent", color: "#6b1a2a", border: "1px solid #d5b8b0", fontWeight: 500, fontSize: "0.88rem", cursor: "pointer", fontFamily: "'Outfit',sans-serif" }}>Ver cómo funciona</button>
+            <button onClick={onLogin} style={{ padding: "14px 32px", borderRadius: 10, background: "#6b1a2a", color: "#f9f0e3", border: "none", fontWeight: 600, fontSize: "0.88rem", cursor: "pointer", fontFamily: "'Outfit',sans-serif" }}>
+              Acceder a la plataforma →
+            </button>
+            <button style={{ padding: "14px 28px", borderRadius: 10, background: "transparent", color: "#6b1a2a", border: "1px solid #d5b8b0", fontWeight: 500, fontSize: "0.88rem", cursor: "pointer", fontFamily: "'Outfit',sans-serif" }}>
+              Ver cómo funciona
+            </button>
           </div>
         </div>
+
+        {/* Tarjeta — derecha en desktop, abajo en móvil */}
         <div className="hero-card">
+          {/* Sombra decorativa — detrás */}
+          <div style={{ position: "absolute", inset: 0, bottom: 36, borderRadius: 20, background: "#6b1a2a", zIndex: 0, transform: "translate(10px, 10px)", opacity: 0.05 }} />
+
+          {/* Card principal */}
           <div style={{ background: "white", borderRadius: 20, padding: 28, border: "1px solid #f0e8e2", position: "relative", zIndex: 1 }}>
             <div style={{ fontSize: "0.62rem", color: "#b89a8a", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 18 }}>Panel en tiempo real</div>
             {[
@@ -58,13 +73,15 @@ export default function LandingHero({ onLogin }) {
               <span style={{ fontSize: "0.68rem", fontWeight: 700, color: "#6b1a2a" }}>94.2% éxito</span>
             </div>
           </div>
-          <div style={{ position: "absolute", bottom: -24, left: -28, background: "#6b1a2a", borderRadius: 14, padding: "14px 18px", zIndex: 2 }}>
+
+          {/* Badge flotante — dentro del flujo para no cortarse */}
+          <div className="floating-badge">
             <div style={{ fontSize: "0.6rem", color: "rgba(249,240,227,0.6)", textTransform: "uppercase", letterSpacing: "0.08em" }}>Hoy</div>
             <div style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.5rem", color: "#f9f0e3", fontWeight: 600, lineHeight: 1 }}>312</div>
             <div style={{ fontSize: "0.62rem", color: "rgba(249,240,227,0.6)", marginTop: 2 }}>paquetes</div>
           </div>
-          <div style={{ position: "absolute", inset: 0, borderRadius: 20, background: "#6b1a2a", zIndex: 0, transform: "translate(10px,10px)", opacity: 0.05 }} />
         </div>
+
       </section>
     </>
   );
